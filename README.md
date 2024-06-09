@@ -10,6 +10,8 @@ This project automates the setup of Docker containers for FFmpeg and NGINX using
 | `playbook.yml`                        | Ansible playbook defining tasks and roles        |
 | `roles/`                              | Directory containing Ansible roles               |
 | `roles/webserver/`                    | Role for managing Docker containers and configs  |
+| `roles/webserver/web`                    | Directory contains web files for display  |
+| `roles/webserver/web/index.html`                    | The file displays the contents of the frame|
 | `roles/webserver/tasks/`              | Tasks directory within the webserver role        |
 | `roles/webserver/templates/`          | Templates directory within the webserver role    |
 | `roles/webserver/tasks/main.yml`      | Main tasks file for the webserver role           |
@@ -82,3 +84,4 @@ Ensure that the following parameters in `ansible.cfg` and `inventory` are correc
 You may need to configure either `ansible_ssh_pass` for password-based authentication or `private_key_file` for SSH key-based authentication in the `ansible.cfg` and `inventory` files respectively.
 
 **PS**: If you only need to connect with SSH or password authentication, you should close some lines accordingly.
+If you encounter any issues or have questions, feel free to reach out to me via email at vahagn.musheghyan01@gmail.com.
