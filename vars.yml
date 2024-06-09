@@ -1,0 +1,8 @@
+---
+webcam_url: "http://webcam.mchcares.com/mjpg/video.mjpg"
+ffmpeg_image: "jrottenberg/ffmpeg:4.3-scratch"
+nginx_image: "nginx:latest"
+frame_directory: "/srv/webcam/frames"
+docker_compose_file: "/srv/webcam/docker-compose.yml"
+update_script: "/srv/webcam/update_frame.sh"
+nginx_port: "80"

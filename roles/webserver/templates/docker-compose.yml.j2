@@ -1,0 +1,17 @@
+version: '3'
+services:
+  ffmpeg:
+    image: {{ ffmpeg_image }}
+    container_name: ffmpeg
+    command: -y -i {{ webcam_url }} -vf fps=1 -update 1 /frames/latest.jpg
+    volumes:
+      - {{ frame_directory }}:/frames
+  nginx:
+    image: {{ nginx_image }}
+    container_name: nginx
+    volumes:
+      - {{ frame_directory }}:/usr/share/nginx/html
+    ports:
+      - "{{ nginx_port }}:80"
+    depends_on:
+      - ffmpeg
