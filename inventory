@@ -1,4 +1,3 @@
-
 [webservers]
-webserver ansible_host=HOST_NAME|IP ansible_user=USER_NAME ansible_ssh_pass=PASSWORD
-
+web1 ansible_host=HOST_NAME_or_IP ansible_user=USER_NAME ansible_ssh_pass=PASSWORD
+web2 ansible_host=HOST_NAME_or_IP
