@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Stream</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #333;
+            font-family: cursive;
+        }
+
+        .img-container {
+            position: relative;
+            overflow: hidden;
+            margin: 20px auto;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: grab;
+        }
+
+        .img-container img {
+            display: block;
+            max-width: 100%;
+            height: auto;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            transform-origin: top left;
+        }
+
+        .zoom-btns {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Latest Webcam Frame</h1>
+        <div class="img-container" draggable="true" ondragstart="return false;" onmousedown="startDragging(event)" onmouseup="stopDragging()">
+            <img id="webcam-img" src="latest.jpg" alt="Latest Frame">
+        </div>
+        <div class="zoom-btns">
+            <button onclick="zoomIn()">Zoom In</button>
+            <button onclick="zoomOut()">Zoom Out</button>
+        </div>
+    </div>
+
+    <script>
+        var scale = 1;
+        var offsetX = 0;
+        var offsetY = 0;
+        var isDragging = false;
+        var startX, startY;
+
+        function zoomIn() {
+            scale += 0.1;
+            updateTransform();
+        }
+
+        function zoomOut() {
+            if (scale > 0.2) {
+                scale -= 0.1;
+                updateTransform();
+            }
+        }
+
+        function startDragging(event) {
+            isDragging = true;
+            startX = event.clientX;
+            startY = event.clientY;
+        }
+
+        function stopDragging() {
+            isDragging = false;
+        }
+
+        function updateTransform() {
+            var img = document.getElementById('webcam-img');
+            var translateX = offsetX / scale;
+            var translateY = offsetY / scale;
+            img.style.transform = 'scale(' + scale + ') translate(' + translateX + 'px, ' + translateY + 'px)';
+        }
+
+        document.addEventListener('mousemove', function(event) {
+            if (isDragging) {
+                var dx = event.clientX - startX;
+                var dy = event.clientY - startY;
+                offsetX += dx;
+                offsetY += dy;
+                startX = event.clientX;
+                startY = event.clientY;
+                updateTransform();
+            }
+        });
+    </script>
+</body>
+</html>
