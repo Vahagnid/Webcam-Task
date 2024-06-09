@@ -1,0 +1,5 @@
+#!/bin/bash
+while true; do
+  ffmpeg -i http://webcamlink.com -vf fps=1 -update 1 /frames/latest.jpg
+  sleep 1
+done

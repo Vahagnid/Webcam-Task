@@ -1,0 +1,4 @@
+
+[webservers]
+webserver ansible_host=HOST_NAME|IP ansible_user=USER_NAME ansible_ssh_pass=PASSWORD
+

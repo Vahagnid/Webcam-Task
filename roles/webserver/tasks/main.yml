@@ -1,0 +1,51 @@
+---
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: yes
+
+- name: Install Docker Compose
+  apt:
+    name: docker-compose
+    state: present
+    update_cache: yes
+
+- name: Create directories for web server
+  file:
+    path: /srv/webcam/frames
+    state: directory
+    mode: '0755'
+
+- name: Create update_frame.sh script
+  template:
+    src: update_frame.sh.j2
+    dest: /srv/webcam/update_frame.sh
+    mode: '0755'
+
+- name: Create Docker Compose file
+  copy:
+    dest: /srv/webcam/docker-compose.yml
+    content: |
+      version: '3'
+      services:
+        ffmpeg:
+          image: jrottenberg/ffmpeg:4.3-scratch
+          container_name: ffmpeg
+          command: -i http://webcam.mchcares.com/mjpg/video.mjpg -vf fps=1 -update 1 /frames/latest.jpg
+          volumes:
+            - /srv/webcam/frames:/frames
+        nginx:
+          image: nginx:latest
+          container_name: nginx
+          volumes:
+            - /srv/webcam/frames:/usr/share/nginx/html
+          ports:
+            - "80:80"
+          depends_on:
+            - ffmpeg
+
+- name: Start Docker Compose services
+  command: docker-compose up -d
+  args:
+    chdir: /srv/webcam
